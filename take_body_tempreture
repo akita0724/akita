@@ -1,0 +1,42 @@
+const number = "0000" ; //学籍番号（必須）
+const name = "" ; //氏名（必須）
+const id = "19ljn0V3DIu2sQtgEcl7FSv6QXeHsISuRMwJ59mAFQl8";//フォームID（必須）
+const notify = false; //LINEに通知する場合true、通知しない場合false（必須）
+const strToken = ""; //LINE Notifyトークン（任意）
+const strMessage = "OK"; //通知するメッセージ（任意）
+
+function sendForm() {
+  const calendar = CalendarApp.getCalendarById("c_f57928238dd3e9b2cd5249571db1e5382836676bc26ad4621afa4292a96e0497@group.calendar.google.com");
+  const today = new Date();
+  const events = calendar.getEventsForDay(today);
+  if (events.length == 0){
+    ;
+  }else{
+    const form = FormApp.openById(id);
+    const formItems = form.getItems();
+    const aItem1 = formItems[0];
+    const aItem2 = formItems[1];
+    const aItem3 = formItems[2];
+    const aItem4 = formItems[3];
+    const text1 = aItem1.asTextItem();
+    const text2 = aItem2.asTextItem();
+    const radio1 = aItem3.asMultipleChoiceItem();
+    const radio2 = aItem4.asMultipleChoiceItem();
+    const ItemResopnse1 = text1.createResponse(number);
+    const ItemResopnse2 = text2.createResponse(name);
+    const ItemResponse3 = radio1.createResponse("ない");
+    const ItemResponse4 = radio2.createResponse("ない");
+    const formResponse = form.createResponse();
+    formResponse.withItemResponse(ItemResopnse1).withItemResponse(ItemResopnse2).withItemResponse(ItemResponse3).withItemResponse(ItemResponse4);
+    formResponse.submit();
+    if (notify == true){
+      var options =
+        {
+          "method" : "post",
+          "payload" : {"message" : strMessage},
+          "headers" : {"Authorization" : "Bearer "+ strToken}
+        };
+    UrlFetchApp.fetch("https://notify-api.line.me/api/notify",options);
+  }
+}
+}
