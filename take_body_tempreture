@@ -1,18 +1,19 @@
 const number = "0000" ; //学籍番号（必須）
-const name = "" ; //氏名（必須）
-const id = "19ljn0V3DIu2sQtgEcl7FSv6QXeHsISuRMwJ59mAFQl8";//フォームID（必須）
+const name = "0000" ; //氏名（必須）
+const form_ID = "19ljn0V3DIu2sQtgEcl7FSv6QXeHsISuRMwJ59mAFQl8";//フォームID（必須）
 const notify = false; //LINEに通知する場合true、通知しない場合false（必須）
-const strToken = ""; //LINE Notifyトークン（任意）
+const strToken = "abcdefghijklmnopqrstuvwxyz1234567890"; //LINE Notifyトークン（任意）
 const strMessage = "OK"; //通知するメッセージ（任意）
+const cal_ID = "c_f57928238dd3e9b2cd5249571db1e5382836676bc26ad4621afa4292a96e0497@group.calendar.google.com"//原則変更不要
 
 function sendForm() {
-  const calendar = CalendarApp.getCalendarById("c_f57928238dd3e9b2cd5249571db1e5382836676bc26ad4621afa4292a96e0497@group.calendar.google.com");
+  const calendar = CalendarApp.getCalendarById(cal_ID);
   const today = new Date();
   const events = calendar.getEventsForDay(today);
   if (events.length == 0){
     ;
   }else{
-    const form = FormApp.openById(id);
+    const form = FormApp.openById(form_ID);
     const formItems = form.getItems();
     const aItem1 = formItems[0];
     const aItem2 = formItems[1];
